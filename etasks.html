@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3a8a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>*,*::before,*::after{box-sizing:border-box}:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}[hidden]{display:none!important}</style>
+<title>H&amp;M Chromebook Site Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single mobile column, sticky progress header, field-sheet sections with large tap targets */
+:root{
+  --bg:#f3f4f7; --surface:#ffffff; --fg:#161b26; --muted:#5d6577; --line:#dde1ea;
+  --accent:#1f3a8a; --accent-soft:#e3e9fb; --ok:#1d7a4c; --ok-soft:#dcf2e6; --warn:#a84b00; --warn-soft:#fff0e0;
+  --display:"Archivo",system-ui,sans-serif; --body:"IBM Plex Sans",system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f131b; --surface:#181e2a; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3242;
+  --accent:#8fa8ff; --accent-soft:#222c48; --ok:#5fd39a; --ok-soft:#173326; --warn:#ffb067; --warn-soft:#3a2614; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f131b; --surface:#181e2a; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3242;
+  --accent:#8fa8ff; --accent-soft:#222c48; --ok:#5fd39a; --ok-soft:#173326; --warn:#ffb067; --warn-soft:#3a2614; color-scheme:dark}
+
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px;}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);}
+header .wrap{padding-block:12px;display:flex;flex-direction:column;gap:8px}
+.hrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h1{font:800 18px/1.2 var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+.count{font:500 13px var(--mono);color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.bar.done span{background:var(--ok)}
+main{display:flex;flex-direction:column;gap:20px;margin-top:20px}
+section{display:flex;flex-direction:column;gap:10px}
+.sh{display:flex;align-items:center;gap:10px}
+.step{font:500 12px var(--mono);color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:2px 7px}
+h2{font:600 16px/1.3 var(--display);margin:0;letter-spacing:.005em}
+.note{color:var(--muted);font-size:13.5px;margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sub{font:600 11.5px var(--body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:12px 14px 4px}
+label.ck{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-top:1px solid var(--line);cursor:pointer;min-height:48px;box-sizing:border-box}
+.card > label.ck:first-child,.sub + label.ck{border-top:0}
+label.ck input{appearance:none;flex:none;width:22px;height:22px;margin:0;border:2px solid var(--muted);border-radius:5px;display:grid;place-items:center;background:var(--surface);cursor:pointer}
+label.ck input:checked{background:var(--ok);border-color:var(--ok)}
+label.ck input:checked::after{content:"";width:6px;height:11px;border:solid var(--surface);border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+label.ck input:focus-visible,.tog input:focus-visible+span,input[type=text]:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+label.ck:has(input:checked) span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.fields{display:grid;grid-template-columns:1fr;gap:0}
+.f{display:flex;flex-direction:column;gap:4px;padding:10px 14px;border-top:1px solid var(--line)}
+.f:first-child{border-top:0}
+.f label{font-size:12.5px;color:var(--muted);font-weight:500}
+input[type=text]{font:15px var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:9px 10px;width:100%;box-sizing:border-box;min-width:0}
+input.mono{font-family:var(--mono);font-size:14px}
+.tests{width:100%;border-collapse:collapse}
+.tests th{font:600 11.5px var(--body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+.tests th:first-child,.tests td:first-child{padding-left:14px}
+.tests th.c,.tests td.c{text-align:center;width:64px}
+.tests td{padding:12px 8px;border-top:1px solid var(--line);vertical-align:middle}
+.tests tr:first-child td{border-top:0}
+.tests b{display:block;font-weight:600}
+.tests small{display:block;color:var(--muted);font-size:13px;line-height:1.35}
+.tog{display:inline-grid;cursor:pointer}
+.tog input{position:absolute;opacity:0;width:1px;height:1px}
+.tog span{width:40px;height:40px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;font:600 12px var(--mono);color:var(--muted);background:var(--bg)}
+.tog input:checked+span{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.alert{background:var(--warn-soft);color:var(--fg);border-radius:10px;padding:12px 14px;font-size:14px;border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
+.alert strong{color:var(--warn)}
+.foot{display:flex;flex-direction:column;gap:8px;align-items:stretch;margin-top:8px}
+button{font:600 14px var(--body);border-radius:8px;padding:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+button.armed{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.hint{font-size:12.5px;color:var(--muted);text-align:center;margin:0}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <div class="hrow"><h1>H&amp;M Chromebook Site Checklist</h1><span class="count" id="count">0 / 0</span></div>
+  <div class="bar" id="bar"><span></span></div>
+</div></header>
+
+<div class="wrap"><main id="main">
+
+<section>
+  <div class="sh"><span class="step">0</span><h2>Site details</h2></div>
+  <div class="card fields">
+    <div class="f"><label for="f-store">Store name / number</label><input type="text" id="f-store"></div>
+    <div class="f"><label for="f-addr">Address</label><input type="text" id="f-addr"></div>
+    <div class="f"><label for="f-date">Visit date &amp; time</label><input type="text" id="f-date"></div>
+    <div class="f"><label for="f-contact">Store contact (name, phone)</label><input type="text" id="f-contact"></div>
+    <div class="f"><label for="f-mgr">Store manager</label><input type="text" id="f-mgr"></div>
+    <div class="f"><label for="f-tech1">Primary technician</label><input type="text" id="f-tech1"></div>
+    <div class="f"><label for="f-tech2">Secondary technician</label><input type="text" id="f-tech2"></div>
+    <div class="f"><label for="f-ticket">Excis ticket / PO number</label><input type="text" id="f-ticket" class="mono"></div>
+    <div class="f"><label for="f-esc">Excis escalation contact</label><input type="text" id="f-esc"></div>
+    <div class="f"><label for="f-cb1">Chromebook 1 serial</label><input type="text" id="f-cb1" class="mono"></div>
+    <div class="f"><label for="f-cb2">Chromebook 2 serial</label><input type="text" id="f-cb2" class="mono"></div>
+    <div class="f"><label for="f-pcs">Old admin PC serials / asset tags</label><input type="text" id="f-pcs" class="mono"></div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="step">1</span><h2>Before the visit</h2></div>
+  <div class="card">
+    <div class="sub">Prep</div>
+    <label class="ck"><input type="checkbox" id="p1"><span>Excis wipe process and training received and understood</span></label>
+    <label class="ck"><input type="checkbox" id="p2"><span>Bootable USB made from the 2–4 GB image (8 GB+ stick) and tested on a spare machine</span></label>
+    <label class="ck"><input type="checkbox" id="p3"><span>Backup USB with the same image</span></label>
+    <label class="ck"><input type="checkbox" id="p4"><span>Enrollment method and credentials or token confirmed with Excis</span></label>
+    <label class="ck"><input type="checkbox" id="p5"><span>Store contact called to confirm visit time and storeroom access</span></label>
+    <label class="ck"><input type="checkbox" id="p6"><span>Escalation numbers saved (Excis, H&amp;M service desk)</span></label>
+    <label class="ck"><input type="checkbox" id="p7"><span>Completion report and sign-off templates downloaded</span></label>
+  </div>
+  <div class="card">
+    <div class="sub">Kit</div>
+    <label class="ck"><input type="checkbox" id="k1"><span>Own laptop, charged, with charger</span></label>
+    <label class="ck"><input type="checkbox" id="k2"><span>2× RJ45 Ethernet cables</span></label>
+    <label class="ck"><input type="checkbox" id="k3"><span>USB-C / USB to RJ45 adapter</span></label>
+    <label class="ck"><input type="checkbox" id="k4"><span>Spare HDMI cable and USB-C to HDMI adapter</span></label>
+    <label class="ck"><input type="checkbox" id="k5"><span>Small screwdriver set (in case a drive must be removed)</span></label>
+    <label class="ck"><input type="checkbox" id="k6"><span>Phone charged, for photos of setups and serial labels</span></label>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="step">2</span><h2>On site: install</h2></div>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="i1"><span>Meet the designated store contact</span></label>
+    <label class="ck"><input type="checkbox" id="i2"><span>Collect both Chromebooks from the storeroom and note the serials</span></label>
+    <label class="ck"><input type="checkbox" id="i3"><span>Power on each device and confirm it passes its self-test</span></label>
+    <label class="ck"><input type="checkbox" id="i4"><span>Place both devices and connect screens, keyboards, mice and cables (HDMI etc.)</span></label>
+    <label class="ck"><input type="checkbox" id="i5"><span>Connect to the store network (LAN and Wi-Fi)</span></label>
+    <label class="ck"><input type="checkbox" id="i6"><span>Enrol each device into H&amp;M's Google Workspace using the confirmed method</span></label>
+    <label class="ck"><input type="checkbox" id="i7"><span>Check enrollment succeeded (managed by H&amp;M, policies applied)</span></label>
+    <label class="ck"><input type="checkbox" id="i8"><span>Ask the store user to log in on each device</span></label>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="step">3</span><h2>Acceptance tests</h2></div>
+  <p class="note">Do these with the store manager. A device counts as done only when all five pass. Tap CB1 or CB2 to mark a pass.</p>
+  <div class="card">
+    <table class="tests">
+      <thead><tr><th>Test</th><th class="c">CB1</th><th class="c">CB2</th></tr></thead>
+      <tbody>
+        <tr><td><b>Wired (LAN)</b><small>Connects to the store network over cable</small></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t1a" aria-label="LAN, Chromebook 1"><span>1</span></label></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t1b" aria-label="LAN, Chromebook 2"><span>2</span></label></td></tr>
+        <tr><td><b>Wi-Fi</b><small>Connects to the store network over Wi-Fi</small></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t2a" aria-label="Wi-Fi, Chromebook 1"><span>1</span></label></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t2b" aria-label="Wi-Fi, Chromebook 2"><span>2</span></label></td></tr>
+        <tr><td><b>Printing</b><small>Canon printer mapped; store user prints a test page</small></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t3a" aria-label="Printing, Chromebook 1"><span>1</span></label></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t3b" aria-label="Printing, Chromebook 2"><span>2</span></label></td></tr>
+        <tr><td><b>Applications</b><small>Store user can open most store-operations apps</small></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t4a" aria-label="Applications, Chromebook 1"><span>1</span></label></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t4b" aria-label="Applications, Chromebook 2"><span>2</span></label></td></tr>
+        <tr><td><b>End of Day (EoD)</b><small>Store user can connect to and run the EoD apps</small></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t5a" aria-label="EoD, Chromebook 1"><span>1</span></label></td>
+          <td class="c"><label class="tog"><input type="checkbox" id="t5b" aria-label="EoD, Chromebook 2"><span>2</span></label></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card fields"><div class="f"><label for="f-fail">Failed test: app or error, and who you escalated to</label><input type="text" id="f-fail"></div></div>
+</section>
+
+<section>
+  <div class="sh"><span class="step">4</span><h2>Old admin PCs: wipe and remove</h2></div>
+  <p class="note">Do this only after both Chromebooks have passed every test.</p>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="d1"><span>Confirm with the store contact which PCs are being retired</span></label>
+    <label class="ck"><input type="checkbox" id="d2"><span>Boot each PC from the wipe USB (or PXE, if instructed) and run the secure wipe</span></label>
+    <label class="ck"><input type="checkbox" id="d3"><span>Save or photograph the wipe result for the destruction certificate</span></label>
+    <label class="ck"><input type="checkbox" id="d4"><span>Power down and shut down each PC</span></label>
+    <label class="ck"><input type="checkbox" id="d5"><span>Disconnect power and network cables</span></label>
+    <label class="ck"><input type="checkbox" id="d6"><span>Move each PC to the storage spot the store contact chooses</span></label>
+  </div>
+  <div class="alert"><strong>If a wipe fails:</strong> stop, and don't destroy anything yet. Call Excis to confirm whether FSO is authorised to destroy the hard drive by hand.</div>
+  <div class="card fields"><div class="f"><label for="f-hdd">Destruction approved by (name, time)</label><input type="text" id="f-hdd"></div></div>
+</section>
+
+<section>
+  <div class="sh"><span class="step">5</span><h2>Close-out</h2></div>
+  <div class="card">
+    <label class="ck"><input type="checkbox" id="c1"><span>Data destruction certificate available and filed for each wiped PC</span></label>
+    <label class="ck"><input type="checkbox" id="c2"><span>Completion report submitted to Excis</span></label>
+    <label class="ck"><input type="checkbox" id="c3"><span>Store user sign-off obtained for both Chromebooks</span></label>
+    <label class="ck"><input type="checkbox" id="c4"><span>Photos of the final setup and serial labels attached</span></label>
+    <label class="ck"><input type="checkbox" id="c5"><span>Any open issues logged with ticket numbers</span></label>
+  </div>
+  <div class="card fields">
+    <div class="f"><label for="f-signuser">Store user / manager sign-off (name, time)</label><input type="text" id="f-signuser"></div>
+    <div class="f"><label for="f-signtech">Technician sign-off (name, time)</label><input type="text" id="f-signtech"></div>
+  </div>
+</section>
+
+<div class="foot">
+  <button type="button" id="reset">Reset for next store</button>
+  <p class="hint" id="hint">Ticks and notes are saved on this phone only.</p>
+</div>
+
+</main></div>
+
+<script>
+(function(){
+  var KEY="hm-cb-checklist-v1";
+  var boxes=[].slice.call(document.querySelectorAll('main input[type=checkbox]'));
+  var texts=[].slice.call(document.querySelectorAll('main input[type=text]'));
+  var bar=document.getElementById('bar'), count=document.getElementById('count');
+  function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
+  function save(){var s={};boxes.forEach(function(b){if(b.checked)s[b.id]=1});texts.forEach(function(t){if(t.value)s[t.id]=t.value});try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+  function update(){var n=boxes.filter(function(b){return b.checked}).length;count.textContent=n+" / "+boxes.length;bar.firstElementChild.style.width=(n/boxes.length*100)+"%";bar.classList.toggle('done',n===boxes.length)}
+  var s=load();boxes.forEach(function(b){b.checked=!!s[b.id]});texts.forEach(function(t){if(s[t.id])t.value=s[t.id]});
+  update();
+  document.getElementById('main').addEventListener('change',function(){update();save()});
+  document.getElementById('main').addEventListener('input',function(e){if(e.target.type==='text')save()});
+  var btn=document.getElementById('reset'),hint=document.getElementById('hint'),armed=null;
+  btn.addEventListener('click',function(){
+    if(!armed){btn.classList.add('armed');btn.textContent="Tap again to clear everything";armed=setTimeout(function(){armed=null;btn.classList.remove('armed');btn.textContent="Reset for next store"},4000);return}
+    clearTimeout(armed);armed=null;boxes.forEach(function(b){b.checked=false});texts.forEach(function(t){t.value=""});
+    try{localStorage.removeItem(KEY)}catch(e){}update();btn.classList.remove('armed');btn.textContent="Reset for next store";hint.textContent="Cleared. Ready for the next store.";window.scrollTo(0,0);
+  });
+})();
+</script>
+</body>
+</html>
